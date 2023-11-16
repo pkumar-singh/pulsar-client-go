@@ -19,6 +19,7 @@ package pulsar
 
 import (
 	"context"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -304,6 +305,27 @@ func (p *partitionProducer) reconnectToBroker() {
 			// Successfully reconnected
 			p.log.WithField("cnx", p.cnx.ID()).Info("Reconnected producer to broker")
 			return
+		}
+
+		if strings.Contains(err.Error(), "TopicTerminatedError") {
+			p.log.Info("Topic was terminated, failing pending messages, will not reconnect")
+			pendingItems := p.pendingQueue.ReadableSlice()
+			for _, item := range pendingItems {
+				pi := item.(*pendingItem)
+				if pi != nil {
+					pi.Lock()
+					requests := pi.sendRequests
+					for _, req := range requests {
+						sr := req.(*sendRequest)
+						if sr != nil {
+							sr.callback(nil, sr.msg, newError(TopicTerminated, err.Error()))
+						}
+					}
+					pi.Unlock()
+				}
+			}
+			p.setProducerState(producerClosing)
+			break
 		}
 
 		if maxRetry > 0 {
