@@ -22,9 +22,9 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 
-	"github.com/apache/pulsar-client-go/pulsar/internal/compression"
-	pb "github.com/apache/pulsar-client-go/pulsar/internal/pulsar_proto"
-	"github.com/apache/pulsar-client-go/pulsar/log"
+	"github.com/pkumar-singh/pulsar-client-go/pulsar/internal/compression"
+	pb "github.com/pkumar-singh/pulsar-client-go/pulsar/internal/pulsar_proto"
+	"github.com/pkumar-singh/pulsar-client-go/pulsar/log"
 )
 
 type BuffersPool interface {

@@ -22,7 +22,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/apache/pulsar-client-go/integration-tests/pb"
+	"github.com/pkumar-singh/pulsar-client-go/integration-tests/pb"
 	"github.com/stretchr/testify/assert"
 )
 

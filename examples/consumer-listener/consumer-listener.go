@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/apache/pulsar-client-go/pulsar"
+	"github.com/pkumar-singh/pulsar-client-go/pulsar"
 )
 
 func main() {
